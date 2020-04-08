@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>First Flask App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<script>
+function myFunction() {
+var track= $('#track').val();
+var artist= $('#artist').val();
+
+  $.ajax({
+              url: "/join",
+              type: "POST",
+              data: {track:track,
+              artist:artist
+              }
+          }).done(function(response) {
+            var html= "<br><br><br><p> <b> Spotify Audio features for your reference track : <b><p>";
+            response =response.result;
+                 $.each(response,function(key,val){
+                 console.log(key);
+                 console.log(val);
+                    html+="<p>"+key+": "+val+"<p>"
+                });
+                html +="<br>";
+                html +="<br>";
+                $(".show-data").append(html);
+            });
+};
+  </script>
+<body>
+    <p>
+        <img src="{{url_for('static', filename='spotify.png')}}" align="middle" style="width:400px;height:200px;"/>
+    </p>
+    <p><h1>Please input track name and artist name to extract Spotify audio features for your reference track <br><br> </h1></p>
+    <p>
+            Artist <input type="text" id="artist" name="artist"><br><br>
+            Track <input type="text" id="track" name="track"><br><br>
+    </p>
+        <p>
+            <button id="clicked" onclick="myFunction()">Submit</button>
+        </p>
+    <div class="show-data" >
+    </div>
+    <p>
+            Acousticness: A confidence measure from 0.0 to 10.0 of whether the track is acoustic. 10.0 represents high confidence the track is acoustic.<br><br>
+            Danceability: describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 10.0 is most danceable.<br><br>
+            Duration: The duration of the track in seconds.<br><br>
+            Energy: Energy is a measure from 0.0 to 10.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale.<br><br>
+            Instrumentalness: Predicts whether a track contains no vocals. “Ooh” and “aah” sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly “vocal”. The closer the instrumentalness value is to 10.0, the greater likelihood the track contains no vocal content. Values above 5.0 are intended to represent instrumental tracks, but confidence is higher as the value approaches 10.0.<br><br>
+            Key: The key the track is in. Integers map to pitches using standard Pitch Class notation . E.g. 0 = C, 1 = C♯/D♭, 2 = D, and so on.
+            Liveness: Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 8.0 provides strong likelihood that the track is live.<br><br>
+            Loudness: The overall loudness of a track binned into a dB range. Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). The 4 levels of loudness range from 1 (least loud) to 4 (loudest).<br><br>
+            Mode: Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived. Major is represented by 1 and minor is 0.<br><br>
+            Speechiness: Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 10.0 the attribute value. Values above 6.6 describe tracks that are probably made entirely of spoken words. Values between 3.3 and 6.6 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 3.3 most likely represent music and other non-speech-like tracks.<br><br>
+            Tempo: The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.<br><br>
+            Time Signature: An estimated overall time signature of a track. The time signature (meter) is a notational convention to specify how many beats are in each bar (or measure).<br><br>
+            Valence: A measure from 0.0 to 10.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).
+<br><br>
+
+    </p>
+    <h1>Now predict the popularity of your own song</h1>
+    <h2><a href="{{ url_for('model') }}">link to prediction</a></h2>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>First Flask App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<script>
+function myFunction() {
+var num1= $('#num1').val();
+var num2= $('#num2').val();
+var num3= $('#num3').val();
+var num4= $('#num4').val();
+var num5= $('#num5').val();
+var num6= $('#num6').val();
+var num7= $('#num7').val();
+var num8= $('#num8').val();
+var num9= $('#num9').val();
+var num10= $('#num10').val();
+var num11= $('#num11').val();
+var num12= $('#num12').val();
+var num13= $('#num13').val();
+
+  $.ajax({
+              url: "/model2",
+              type: "POST",
+              data: {num1:num1,
+              num2:num2,
+              num3:num3,
+              num4:num4,
+              num5:num5,
+              num6:num6,
+              num7:num7,
+              num8:num8,
+              num9:num9,
+              num10:num10,
+              num11:num11,
+              num12:num12,
+              num13:num13
+              }
+          }).done(function(response) {
+            var html= "<br><br><br><p> <b> Spotify Popularity (Scale of 1 - 5) : <b><p>";
+            result =response.result;
+                 $.each(response,function(key,val){
+                 console.log(val);
+                    html+="<p>"+val.output+"<p>"
+                });
+                html +="<br>";
+                $(".show-data").append(html);
+            });
+};
+  </script>
+<body>
+    <p>
+        <img src="{{url_for('static', filename='spotify.png')}}" align="middle" style="width:400px;height:200px;"/>
+    </p>
+    <p> <h1> Please Input Features to Predict Popularity of Your Song<br><br> </h1></p>
+    <p>
+            Acousticness <input type="text" id="num1" name="num1"><br><br>
+            Danceability <input type="text" id="num2" name="num2"><br><br>
+            Duration <input type="text" id="num3" name="num3"><br><br>
+            Energy <input type="text" id="num4" name="num4"><br><br>
+            Instrumentalness <input type="text" id="num5" name="num5"><br><br>
+            Key <input type="text" id="num6" name="num6"><br><br>
+            Liveness <input type="text" id="num7" name="num7"><br><br>
+            Loudness <input type="text" id="num8" name="num8"><br><br>
+            Mode <input type="text" id="num9" name="num9"><br><br>
+            Speechiness <input type="text" id="num10" name="num10"><br><br>
+            Tempo <input type="text" id="num11" name="num11"><br><br>
+            Time Signature <input type="text" id="num12" name="num12"><br><br>
+            Valence <input type="text" id="num13" name="num13"><br><br>
+    </p>
+        <p>
+            <button id="clicked" onclick="myFunction()">Submit</button>
+        </p>
+    <div class="show-data" >
+    </div>
+</body>
+</html>
